@@ -1,0 +1,62 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        if not root.left and not root.right:
+            return 0
+        root_present = []
+        root_li = [root]
+        root_temp_li = []
+        while True:
+            if not root_li:
+                break
+            if not root_li[0]:
+                break
+            for root in root_li:
+                if root and root.left:
+                    root_temp_li.append(root.left)
+                if root and root.right:
+                    root_temp_li.append(root.right)
+                li = [root.left]
+                temp_li = []
+                present1 = 0
+                present = 0
+                while True:
+                    if not li:
+                        break
+                    if not li[0]:
+                        break
+                    for i in li:
+                        if i and i.left:
+                            temp_li.append(i.left)
+                        if i and i.right:
+                            temp_li.append(i.right)
+                    li = temp_li
+                    temp_li = []
+                    present+=1
+                li = [root.right]
+                temp_li = []
+                while True:
+                    if not li:
+                        break
+                    if not li[0]:
+                        break
+                    for i in li:
+                        if i and i.left:
+                            temp_li.append(i.left)
+                        if i and i.right:
+                            temp_li.append(i.right)
+                    li = temp_li
+                    temp_li = []
+                    present1+=1
+                root_present.append(present+present1)
+            root_li=root_temp_li
+            root_temp_li = []
+        return max(root_present)
